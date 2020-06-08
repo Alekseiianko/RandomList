@@ -9,7 +9,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Random random = new Random();
     private ItemAdapter itemAdapter;
     private List<Drawable> images = new ArrayList<>();
+    private ListView listView;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
-        ListView listView = findViewById(R.id.listViewMain);
+        listView = findViewById(R.id.listViewMain);
 
         dropImages();
 
@@ -44,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
         itemAdapter = new ItemAdapter(this, null);
         listView.setAdapter(itemAdapter);
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showInfo(position);
+                return true;
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -57,7 +67,20 @@ public class MainActivity extends AppCompatActivity {
         itemAdapter.addItem(new ItemData(
                 images.get(random.nextInt(images.size())),
                 "Hello" + itemAdapter.getCount(),
-                "It\'s me",
-                random.nextBoolean()));
+                "It\'s me"
+                ));
+    }
+
+    private void showInfo(int position) {
+        ItemData itemData = (ItemData) itemAdapter.getItem(position);
+        Toast.makeText(MainActivity.this,
+                "Title: " + itemData.getTitle() + "\n" +
+                        "Subtitle: " + itemData.getSubtitle() ,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public void delete(View v){
+        int position = listView.getPositionForView(v);
+        itemAdapter.removeItem(position);
     }
 }

@@ -45,15 +45,17 @@
             android:layout_toEndOf="@id/image">
         </TextView>
 
-        <CheckBox
-            android:id="@+id/checked"
-            android:layout_width="wrap_content"
-            android:layout_height="21dp"
+        <Button
+            android:id="@+id/button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="X"
+            android:onClick="delete"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="3dp"
             android:layout_marginRight="15dp">
 
-        </CheckBox>
+        </Button>
 
     </RelativeLayout>
 
